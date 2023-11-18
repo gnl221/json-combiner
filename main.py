@@ -9,6 +9,7 @@ def combine_json_files(folder_path):
     combined_data = {}
 
     for file_name in os.listdir(folder_path):
+        # If file is a JSON file and not a previously combined JSON file
         if file_name.endswith(".json") and not file_name.startswith("combined"):
             with open(os.path.join(folder_path, file_name), 'r') as file:
                 data = json.load(file)
@@ -19,6 +20,7 @@ def combine_json_files(folder_path):
                     combined_data[main_label] = []
                 
                 for item in data[main_label]:
+                    # If item is not in combined_data, add it
                     if item not in combined_data[main_label]:
                         combined_data[main_label].append(item)
 
@@ -32,11 +34,13 @@ def combine_json_files(folder_path):
     print(f"Combined JSON file created: {output_file_name}")
 
 def main():
+    # Get folder path from command line argument
     parser = argparse.ArgumentParser(description="Combine JSON files into one.")
     parser.add_argument("folder", nargs='?', help="Folder containing JSON files")
     args = parser.parse_args()
 
     folder_path = args.folder
+    # If folder path is not provided, get it from user
     if not folder_path:
         folder_path = input("Enter the folder path containing JSON files: ")
 
